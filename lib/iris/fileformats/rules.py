@@ -320,13 +320,10 @@ class FunctionRule(Rule):
 
         factory = None
 
-        # NB. The names such as 'CoordAndDims' and 'CellMethod' are defined by
-        # the "deferred import" performed by Rule.run_actions() above.
-        if isinstance(obj, CoordAndDims):
-            obj.add_coord(cube)
-
+        # NB. The names such as 'CellMethod' are defined by the
+        # "deferred import" performed by Rule.run_actions() above.
         #cell methods - not yet implemented
-        elif isinstance(obj, CellMethod):
+        if isinstance(obj, CellMethod):
             cube.add_cell_method(obj)
 
         elif isinstance(obj, CMAttribute):
@@ -346,14 +343,8 @@ class FunctionRule(Rule):
             else:
                 setattr(cube, obj.name, obj.value)
 
-        elif isinstance(obj, CMCustomAttribute):
-            cube.attributes[obj.name] = obj.value
-
         elif isinstance(obj, Factory):
             factory = obj
-
-        elif isinstance(obj, DebugString):
-            print(obj)
 
         # The function returned nothing, like the pp save actions, "lbft = 3"
         elif obj is None:
